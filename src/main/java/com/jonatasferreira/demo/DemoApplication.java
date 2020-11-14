@@ -1,5 +1,6 @@
 package com.jonatasferreira.demo;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -13,13 +14,20 @@ import com.jonatasferreira.demo.domain.Cidade;
 import com.jonatasferreira.demo.domain.Cliente;
 import com.jonatasferreira.demo.domain.Endereco;
 import com.jonatasferreira.demo.domain.Estado;
+import com.jonatasferreira.demo.domain.Pagamento;
+import com.jonatasferreira.demo.domain.PagamentoBoleto;
+import com.jonatasferreira.demo.domain.PagamentoCartao;
+import com.jonatasferreira.demo.domain.Pedido;
 import com.jonatasferreira.demo.domain.Produto;
+import com.jonatasferreira.demo.domain.enums.StatusPagamento;
 import com.jonatasferreira.demo.domain.enums.TipoCliente;
 import com.jonatasferreira.demo.repositories.CategoriaRepository;
 import com.jonatasferreira.demo.repositories.CidadeRepository;
 import com.jonatasferreira.demo.repositories.ClienteRepository;
 import com.jonatasferreira.demo.repositories.EnderecoRepository;
 import com.jonatasferreira.demo.repositories.EstadoRepository;
+import com.jonatasferreira.demo.repositories.PagamentoRepository;
+import com.jonatasferreira.demo.repositories.PedidoRepository;
 import com.jonatasferreira.demo.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -43,12 +51,20 @@ public class DemoApplication implements CommandLineRunner {
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 	
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		
 		Categoria c1 = new Categoria("Informática");
 		Categoria c2 = new Categoria("Escritório");
 		
@@ -68,8 +84,18 @@ public class DemoApplication implements CommandLineRunner {
 		Endereco end1 = new Endereco("rua prefeito francisco camilo", "316", "mercadinho ferreira", "catole", "58410280", cid3, cli1);
 		Endereco end2 = new Endereco("avenida matos", "105", "sala 800", "centro", "31231233", cid2, cli1);
 		
+		Pedido ped1 = new Pedido(sdf.parse("30/09/2017 10:32"), cli1, end1);
+		Pedido ped2 = new Pedido(sdf.parse("10/10/2017 19:35"), cli1, end2);
+		
+		Pagamento pag1 = new PagamentoCartao(StatusPagamento.QUITADO, ped1, 6);
+		ped1.setPagamento(pag1);
+		
+		Pagamento pag2 = new PagamentoBoleto(StatusPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
+		ped2.setPagamento(pag2);
+				
 		cli1.adicionaTelefones(new HashSet<>(Arrays.asList("987234567", "998111991")));
 		cli1.adicionaEnderecos(Arrays.asList(end1, end2));
+		cli1.adicionaPedidos(Arrays.asList(ped1, ped2));
 		
 		e1.adicionaCidades(Arrays.asList(cid1));
 		e2.adicionaCidades(Arrays.asList(cid2));
@@ -88,6 +114,8 @@ public class DemoApplication implements CommandLineRunner {
 		cidadeRepository.saveAll(Arrays.asList(cid1, cid2, cid3));
 		clienteRepository.save(cli1);
 		enderecoRepository.saveAll(Arrays.asList(end1, end2));
+		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
+		pagamentoRepository.saveAll(Arrays.asList(pag1, pag2));
 	}
 
 }

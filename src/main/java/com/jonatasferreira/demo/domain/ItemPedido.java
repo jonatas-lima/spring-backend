@@ -30,10 +30,6 @@ public class ItemPedido implements Serializable  {
 		this.preco = preco;
 	}
 
-	public ItemPedidoPK getId() {
-		return id;
-	}
-	
 	@JsonIgnore
 	public Pedido getPedido() {
 		return id.getPedido();

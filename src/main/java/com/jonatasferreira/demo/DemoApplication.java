@@ -14,6 +14,7 @@ import com.jonatasferreira.demo.domain.Cidade;
 import com.jonatasferreira.demo.domain.Cliente;
 import com.jonatasferreira.demo.domain.Endereco;
 import com.jonatasferreira.demo.domain.Estado;
+import com.jonatasferreira.demo.domain.ItemPedido;
 import com.jonatasferreira.demo.domain.Pagamento;
 import com.jonatasferreira.demo.domain.PagamentoBoleto;
 import com.jonatasferreira.demo.domain.PagamentoCartao;
@@ -26,6 +27,7 @@ import com.jonatasferreira.demo.repositories.CidadeRepository;
 import com.jonatasferreira.demo.repositories.ClienteRepository;
 import com.jonatasferreira.demo.repositories.EnderecoRepository;
 import com.jonatasferreira.demo.repositories.EstadoRepository;
+import com.jonatasferreira.demo.repositories.ItemPedidoRepository;
 import com.jonatasferreira.demo.repositories.PagamentoRepository;
 import com.jonatasferreira.demo.repositories.PedidoRepository;
 import com.jonatasferreira.demo.repositories.ProdutoRepository;
@@ -56,6 +58,9 @@ public class DemoApplication implements CommandLineRunner {
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
@@ -93,6 +98,17 @@ public class DemoApplication implements CommandLineRunner {
 		Pagamento pag2 = new PagamentoBoleto(StatusPagamento.PENDENTE, ped2, sdf.parse("20/10/2017 00:00"), null);
 		ped2.setPagamento(pag2);
 				
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.0);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.0);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.0);
+		
+		ped1.adicionaItens(Arrays.asList(ip1, ip2));
+		ped2.adicionaItens(Arrays.asList(ip3));
+		
+		p1.adicionaItens(Arrays.asList(ip1));
+		p2.adicionaItens(Arrays.asList(ip3));
+		p3.adicionaItens(Arrays.asList(ip2));
+		
 		cli1.adicionaTelefones(new HashSet<>(Arrays.asList("987234567", "998111991")));
 		cli1.adicionaEnderecos(Arrays.asList(end1, end2));
 		cli1.adicionaPedidos(Arrays.asList(ped1, ped2));
@@ -116,6 +132,7 @@ public class DemoApplication implements CommandLineRunner {
 		enderecoRepository.saveAll(Arrays.asList(end1, end2));
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pag1, pag2));
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}
 
 }

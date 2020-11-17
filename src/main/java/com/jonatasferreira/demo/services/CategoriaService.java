@@ -48,7 +48,7 @@ public class CategoriaService {
 		try {
 			repo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException(Messages.DATA_INTEGRITY);
+			throw new DataIntegrityException(Messages.DATA_INTEGRITY_CATEGORIA);
 		}
 	}
 	

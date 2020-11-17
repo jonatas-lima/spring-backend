@@ -40,4 +40,14 @@ public class CategoriaResource {
 		
 		return ResponseEntity.created(uri).build();
 	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(
+			@PathVariable(required = true) Integer id, 
+			@RequestBody(required = true) Categoria obj) {
+		obj.setId(id);
+		obj = service.update(obj);
+		
+		return ResponseEntity.noContent().build();
+	}
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.jonatasferreira.demo.constants.Messages;
 import com.jonatasferreira.demo.domain.Categoria;
+import com.jonatasferreira.demo.dto.CategoriaDTO;
 import com.jonatasferreira.demo.repositories.CategoriaRepository;
 import com.jonatasferreira.demo.services.exceptions.DataIntegrityException;
 import com.jonatasferreira.demo.services.exceptions.ObjectNotFoundException;
@@ -54,5 +55,11 @@ public class CategoriaService {
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
+	}
+	
+	public Categoria fromDTO(CategoriaDTO objDto) {
+		Categoria obj = new Categoria(objDto.getNome());
+		obj.setId(objDto.getId());
+		return obj;
 	}
 }

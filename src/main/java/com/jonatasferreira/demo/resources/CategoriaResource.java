@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -46,29 +48,32 @@ public class CategoriaResource {
 			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
 			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction
-			) {
+		) {
 		Page<Categoria> list = service.findPage(pages, linesPerPage, orderBy, direction);
 		Page<CategoriaDTO> listDto = list.map(CategoriaDTO::new);
 		return ResponseEntity.ok().body(listDto);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody(required = true) Categoria obj) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody(required = true) CategoriaDTO objDto) {
+		Categoria obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
 		
-		URI uri = ServletUriComponentsBuilder
+		URI location = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{id}")
 				.buildAndExpand(obj.getId())
 				.toUri();
 		
-		return ResponseEntity.created(uri).build();
+		return ResponseEntity.created(location).build();
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(
 			@PathVariable(required = true) Integer id, 
-			@RequestBody(required = true) Categoria obj) {
+			@Valid @RequestBody(required = true) CategoriaDTO objDto
+		) {
+		Categoria obj = service.fromDTO(objDto);
 		obj.setId(id);
 		obj = service.update(obj);
 		

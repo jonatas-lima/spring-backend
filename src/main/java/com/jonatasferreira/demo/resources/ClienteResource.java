@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.jonatasferreira.demo.constants.ApiEndpoints;
 import com.jonatasferreira.demo.domain.Cliente;
 import com.jonatasferreira.demo.dto.ClienteDTO;
+import com.jonatasferreira.demo.dto.ClienteNewDTO;
 import com.jonatasferreira.demo.services.ClienteService;
 
 @RestController
@@ -55,7 +56,7 @@ public class ClienteResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody(required = true) ClienteDTO objDto) {
+	public ResponseEntity<Void> insert(@Valid @RequestBody(required = true) ClienteNewDTO objDto) {
 		Cliente obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
 		

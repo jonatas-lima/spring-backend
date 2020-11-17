@@ -94,6 +94,10 @@ public class Cliente implements Serializable {
 	public void adicionaEnderecos(List<Endereco> enderecos) {
 		this.enderecos.addAll(enderecos);
 	}
+	
+	public void adicionaEnderecos(Endereco enderecos) {
+		this.enderecos.add(enderecos);
+	}
 
 	public Set<String> getTelefones() {
 		return new HashSet<>(this.telefones);
@@ -101,6 +105,10 @@ public class Cliente implements Serializable {
 	
 	public void adicionaTelefones(Set<String> telefones) {
 		this.telefones.addAll(telefones);
+	}
+	
+	public void adicionaTelefones(String telefone) {
+		this.telefones.add(telefone);
 	}
 
 	public List<Pedido> getPedidos() {

@@ -1,13 +1,16 @@
 package com.jonatasferreira.demo.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.jonatasferreira.demo.constants.Messages;
 import com.jonatasferreira.demo.domain.Categoria;
 import com.jonatasferreira.demo.repositories.CategoriaRepository;
+import com.jonatasferreira.demo.services.exceptions.DataIntegrityException;
 import com.jonatasferreira.demo.services.exceptions.ObjectNotFoundException;
 
 
@@ -24,6 +27,10 @@ public class CategoriaService {
 		);
 	}
 	
+	public List<Categoria> findAll() {
+		return repo.findAll();
+	}
+	
 	public Categoria insert(Categoria obj) {
 		return repo.save(obj);
 	}
@@ -31,5 +38,14 @@ public class CategoriaService {
 	public Categoria update(Categoria obj) {
 		find(obj.getId());
 		return repo.save(obj);
+	}
+	
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException(Messages.DATA_INTEGRITY);
+		}
 	}
 }

@@ -13,7 +13,6 @@ import com.jonatasferreira.demo.repositories.CategoriaRepository;
 import com.jonatasferreira.demo.services.exceptions.DataIntegrityException;
 import com.jonatasferreira.demo.services.exceptions.ObjectNotFoundException;
 
-
 @Service
 public class CategoriaService {
 

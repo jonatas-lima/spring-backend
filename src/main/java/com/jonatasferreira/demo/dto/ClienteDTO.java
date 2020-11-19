@@ -7,7 +7,9 @@ import org.hibernate.validator.constraints.Length;
 
 import com.jonatasferreira.demo.constants.Messages;
 import com.jonatasferreira.demo.domain.Cliente;
+import com.jonatasferreira.demo.services.validation.ClienteUpdate;
 
+@ClienteUpdate
 public class ClienteDTO {
 
 	private Integer id;

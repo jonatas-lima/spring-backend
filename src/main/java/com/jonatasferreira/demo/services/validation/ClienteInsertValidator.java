@@ -6,14 +6,21 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.jonatasferreira.demo.constants.Messages;
+import com.jonatasferreira.demo.domain.Cliente;
 import com.jonatasferreira.demo.domain.enums.TipoCliente;
 import com.jonatasferreira.demo.dto.ClienteNewDTO;
+import com.jonatasferreira.demo.repositories.ClienteRepository;
 import com.jonatasferreira.demo.resources.exceptions.FieldMessage;
 import com.jonatasferreira.demo.services.validation.utils.BR;
 
 public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert, ClienteNewDTO> {
 
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
 	@Override
 	public void initialize(ClienteInsert ann) {
 	}
@@ -35,12 +42,12 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 			list.add(new FieldMessage("tipo", Messages.TIPO_INVALIDO));
 		}
 		
-		list.forEach(e -> {
-			context.disableDefaultConstraintViolation();
-			context.buildConstraintViolationWithTemplate(e.getMessage())
-			.addPropertyNode(e.getFieldName())
-			.addConstraintViolation();
-		});
+		Cliente aux = clienteRepository.findByEmail(value.getEmail());
+		if (aux != null) {
+			list.add(new FieldMessage("email", Messages.EMAIL_EXISTENTE));
+		}
+		
+		AttachErrorMessages.attachMessages(list, context);
 		
 		return list.isEmpty();
 	}

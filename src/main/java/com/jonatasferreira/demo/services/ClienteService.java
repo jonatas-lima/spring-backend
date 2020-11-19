@@ -84,8 +84,10 @@ public class ClienteService {
 	
 	public Cliente fromDTO(ClienteNewDTO objDto) {
 		Cliente cli = new Cliente(objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(), TipoCliente.toEnum(objDto.getTipo()));
+		
 		Cidade cid = new Cidade(null, null);
 		cid.setId(objDto.getCidadeId());
+		
 		Endereco end = new Endereco(objDto.getLogradouro(), objDto.getNumero(), objDto.getComplemento(), objDto.getBairro(), objDto.getCep(), cid, cli);
 		cli.adicionaEnderecos(end);
 		cli.adicionaTelefones(objDto.getTelefone1());
@@ -96,6 +98,7 @@ public class ClienteService {
 		if (objDto.getTelefone3() != null) {
 			cli.adicionaTelefones(objDto.getTelefone3());
 		}
+		
 		return cli; 
 	}
 }

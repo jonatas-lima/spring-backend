@@ -81,6 +81,14 @@ public class DemoApplication implements CommandLineRunner {
 		Produto p1 = new Produto("Computador", 2000.0);
 		Produto p2 = new Produto("Impressora", 800.0);
 		Produto p3 = new Produto("Mouse", 80.0);
+		Produto p4 = new Produto("Mesa de escritório", 300.0);
+		Produto p5 = new Produto("Toalha", 50.0);
+		Produto p6 = new Produto("Colcha", 200.0);
+		Produto p7 = new Produto("TV true color", 1200.0);
+		Produto p8 = new Produto("Roçadeira", 800.0);
+		Produto p9 = new Produto("Abajour", 100.0);
+		Produto p10 = new Produto("Pendente", 180.0);
+		Produto p11 = new Produto("Shampoo", 90.0);
 		
 		Estado e1 = new Estado("Minas Gerais"); 
 		Estado e2 = new Estado("São Paulo"); 
@@ -123,14 +131,27 @@ public class DemoApplication implements CommandLineRunner {
 		e3.adicionaCidades(Arrays.asList(cid3));
 		
 		c1.adicionaProdutos(Arrays.asList(p1, p2, p3));
-		c2.adicionaProdutos(Arrays.asList(p2));
+		c2.adicionaProdutos(Arrays.asList(p2, p4));
+		c3.adicionaProdutos(Arrays.asList(p5, p6));
+		c4.adicionaProdutos(Arrays.asList(p1, p2, p3, p7));
+		c5.adicionaProdutos(Arrays.asList(p8));
+		c6.adicionaProdutos(Arrays.asList(p9, p10));
+		c7.adicionaProdutos(Arrays.asList(p11));
 		
-		p1.adicionaCategorias(Arrays.asList(c1));
-		p2.adicionaCategorias(Arrays.asList(c1, c2));
-		p3.adicionaCategorias(Arrays.asList(c1));
+		p1.adicionaCategorias(Arrays.asList(c1, c4));
+		p2.adicionaCategorias(Arrays.asList(c1, c2, c4));
+		p3.adicionaCategorias(Arrays.asList(c1, c4));
+		p4.adicionaCategorias(Arrays.asList(c2));
+		p5.adicionaCategorias(Arrays.asList(c3));
+		p6.adicionaCategorias(Arrays.asList(c3));
+		p7.adicionaCategorias(Arrays.asList(c4));
+		p8.adicionaCategorias(Arrays.asList(c5));
+		p9.adicionaCategorias(Arrays.asList(c6));
+		p10.adicionaCategorias(Arrays.asList(c6));
+		p11.adicionaCategorias(Arrays.asList(c7));
 		
 		categoriaRepository.saveAll(Arrays.asList(c1, c2, c3, c4, c5, c6, c7));
-		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
+		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
 		estadoRepository.saveAll(Arrays.asList(e1, e2, e3));
 		cidadeRepository.saveAll(Arrays.asList(cid1, cid2, cid3));
 		clienteRepository.save(cli1);

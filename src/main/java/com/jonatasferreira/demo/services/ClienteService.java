@@ -47,7 +47,7 @@ public class ClienteService {
 	@Transactional
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
-		clienteRepo.save(obj);
+		obj = clienteRepo.save(obj);
 		enderecoRepositorio.saveAll(obj.getEnderecos());
 		return obj;
 	}
@@ -78,8 +78,7 @@ public class ClienteService {
 	}
 	
 	public Cliente fromDTO(ClienteDTO objDto) {
-		Cliente obj = new Cliente(objDto.getNome(), objDto.getEmail(), null, null);
-		return obj;
+		return new Cliente(objDto.getNome(), objDto.getEmail(), null, null);
 	}
 	
 	public Cliente fromDTO(ClienteNewDTO objDto) {

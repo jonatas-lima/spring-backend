@@ -2,22 +2,49 @@ package com.jonatasferreira.demo.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.jonatasferreira.demo.constants.Messages;
+import com.jonatasferreira.demo.services.validation.ClienteInsert;
+
+@ClienteInsert
 public class ClienteNewDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@NotEmpty(message = Messages.CAMPO_NULO)
+	@Length(min = 5, max = 120, message = Messages.TAMANHO_INVALIDO)
 	private String nome;
+	
+	@NotEmpty(message = Messages.CAMPO_NULO)
+	@Email(message = Messages.EMAIL_INVALIDO)
 	private String email;
+	
+	@NotEmpty(message = Messages.CAMPO_NULO)
 	private String cpfOuCnpj;
+	
 	private Integer tipo;
 	
+	@NotEmpty(message = Messages.CAMPO_NULO)
 	private String logradouro;
+	
+	@NotEmpty(message = Messages.CAMPO_NULO)
 	private String numero;
+	
 	private String complemento;
+	
 	private String bairro;
+	
+	@NotEmpty(message = Messages.CAMPO_NULO)
 	private String cep;
 	
+	@NotEmpty(message = Messages.CAMPO_NULO)
 	private String telefone1;
+	
 	private String telefone2;
+	
 	private String telefone3;
 	
 	private Integer cidadeId;

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,5 +45,11 @@ public class ProdutoResource {
 		Page<Produto> list = service.search(nomeDecoded, ids, pages, linesPerPage, orderBy, direction);
 		Page<ProdutoDTO> listDto = list.map(ProdutoDTO::new);
 		return ResponseEntity.ok().body(listDto);
+	}
+	
+	@GetMapping(value = "/all")
+	public ResponseEntity<List<Produto>> findAll() {
+		List<Produto> list = service.findAll();
+		return ResponseEntity.ok().body(list);
 	}
 }

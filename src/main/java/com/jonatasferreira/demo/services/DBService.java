@@ -92,7 +92,7 @@ public class DBService {
 		Cidade cid2 = new Cidade("São Paulo", e2);
 		Cidade cid3 = new Cidade("Campina Grande", e3);
 
-		Cliente cli1 = new Cliente("Maria Silva", "maria@gmail.com", "31231231313", TipoCliente.PESSOA_FISICA);
+		Cliente cli1 = new Cliente("Maria Silva", "jonatas.lima@ccc.ufcg.edu.br", "31231231313", TipoCliente.PESSOA_FISICA);
 		Endereco end1 = new Endereco("rua prefeito francisco camilo", "316", "mercadinho ferreira", "catole",
 				"58410280", cid3, cli1);
 		Endereco end2 = new Endereco("avenida matos", "105", "sala 800", "centro", "31231233", cid2, cli1);

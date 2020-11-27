@@ -17,7 +17,7 @@ public abstract class EmailServiceAbstract implements EmailService {
 		SimpleMailMessage sm = prepareSimpleMailMessageFromPedido(pedido);
 		sendEmail(sm);
 	}
-
+	
 	protected SimpleMailMessage prepareSimpleMailMessageFromPedido(Pedido pedido) {
 		SimpleMailMessage sm = new SimpleMailMessage();
 		

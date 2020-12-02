@@ -16,11 +16,14 @@ import com.jonatasferreira.demo.constants.Messages;
 import com.jonatasferreira.demo.domain.Cidade;
 import com.jonatasferreira.demo.domain.Cliente;
 import com.jonatasferreira.demo.domain.Endereco;
+import com.jonatasferreira.demo.domain.enums.Perfil;
 import com.jonatasferreira.demo.domain.enums.TipoCliente;
 import com.jonatasferreira.demo.dto.ClienteDTO;
 import com.jonatasferreira.demo.dto.ClienteNewDTO;
 import com.jonatasferreira.demo.repositories.ClienteRepository;
 import com.jonatasferreira.demo.repositories.EnderecoRepository;
+import com.jonatasferreira.demo.security.UserSS;
+import com.jonatasferreira.demo.services.exceptions.AuthorizationException;
 import com.jonatasferreira.demo.services.exceptions.DataIntegrityException;
 import com.jonatasferreira.demo.services.exceptions.ObjectNotFoundException;
 
@@ -38,6 +41,12 @@ public class ClienteService {
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	public Cliente find(Integer id) {
+		
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException(Messages.ACESSO_NEGADO);
+		}
+		
 		Optional<Cliente> obj = clienteRepo.findById(id);
 		return obj.orElseThrow(() -> 
 			new ObjectNotFoundException(String.format(Messages.OBJECT_NOT_FOUND_D_S, id, Cliente.class.getName()))

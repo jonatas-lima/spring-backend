@@ -4,11 +4,15 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jonatasferreira.demo.constants.Messages;
 import com.jonatasferreira.demo.domain.Categoria;
+import com.jonatasferreira.demo.domain.Cliente;
 import com.jonatasferreira.demo.domain.ItemPedido;
 import com.jonatasferreira.demo.domain.PagamentoBoleto;
 import com.jonatasferreira.demo.domain.Pedido;
@@ -16,6 +20,8 @@ import com.jonatasferreira.demo.domain.enums.StatusPagamento;
 import com.jonatasferreira.demo.repositories.ItemPedidoRepository;
 import com.jonatasferreira.demo.repositories.PagamentoRepository;
 import com.jonatasferreira.demo.repositories.PedidoRepository;
+import com.jonatasferreira.demo.security.UserSS;
+import com.jonatasferreira.demo.services.exceptions.AuthorizationException;
 import com.jonatasferreira.demo.services.exceptions.ObjectNotFoundException;
 
 
@@ -48,6 +54,18 @@ public class PedidoService {
 		return obj.orElseThrow(() -> 
 			new ObjectNotFoundException(String.format(Messages.OBJECT_NOT_FOUND_D_S, id, Categoria.class.getName()))
 		);
+	}
+	
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException(Messages.ACESSO_NEGADO);
+		}
+		
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Cliente cliente = clienteService.find(user.getId());
+		
+		return pedidoRepository.findByCliente(cliente, pageRequest);
 	}
 	
 	@Transactional

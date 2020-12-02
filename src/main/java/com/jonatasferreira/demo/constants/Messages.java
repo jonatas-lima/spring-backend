@@ -15,4 +15,6 @@ public class Messages {
 	public static final String TIPO_INVALIDO = "Tipo invalido";
 	public static final String CPF_INVALIDO = "CPF inválido";
 	public static final String CNPJ_INVALIDO = "CNPJ inválido";
+	
+	public static final String ACESSO_NEGADO = "Acesso negado";
 }

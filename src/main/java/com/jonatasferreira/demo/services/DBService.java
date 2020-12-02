@@ -20,6 +20,7 @@ import com.jonatasferreira.demo.domain.PagamentoBoleto;
 import com.jonatasferreira.demo.domain.PagamentoCartao;
 import com.jonatasferreira.demo.domain.Pedido;
 import com.jonatasferreira.demo.domain.Produto;
+import com.jonatasferreira.demo.domain.enums.Perfil;
 import com.jonatasferreira.demo.domain.enums.StatusPagamento;
 import com.jonatasferreira.demo.domain.enums.TipoCliente;
 import com.jonatasferreira.demo.repositories.CategoriaRepository;
@@ -96,10 +97,14 @@ public class DBService {
 		Cidade cid2 = new Cidade("São Paulo", e2);
 		Cidade cid3 = new Cidade("Campina Grande", e3);
 
-		Cliente cli1 = new Cliente("Maria Silva", "jonatas.lima@ccc.ufcg.edu.br", "31231231313", TipoCliente.PESSOA_FISICA, passwordEncoder.encode("123"));
-		Endereco end1 = new Endereco("rua prefeito francisco camilo", "316", "mercadinho ferreira", "catole",
-				"58410280", cid3, cli1);
+		Cliente cli1 = new Cliente("Maria Silva", "jonatas.lima@ccc.ufcg.edu.br", "63394822016", TipoCliente.PESSOA_FISICA, passwordEncoder.encode("123"));
+		
+		Cliente cli2 = new Cliente("Ana Costa", "ana.costa@gmail.com", "16564905017", TipoCliente.PESSOA_FISICA, passwordEncoder.encode("1234"));
+		cli2.addPerfil(Perfil.ADMIN);
+		
+		Endereco end1 = new Endereco("rua prefeito francisco camilo", "316", "mercadinho ferreira", "catole", "58410280", cid3, cli1);
 		Endereco end2 = new Endereco("avenida matos", "105", "sala 800", "centro", "31231233", cid2, cli1);
+		Endereco end3 = new Endereco("travessa francisco camilo", "110", "beco", "catole", "58410282", cid2, cli2);
 
 		Pedido ped1 = new Pedido(sdf.parse("30/09/2017 10:32"), cli1, end1);
 		Pedido ped2 = new Pedido(sdf.parse("10/10/2017 19:35"), cli1, end2);
@@ -124,6 +129,9 @@ public class DBService {
 		cli1.adicionaTelefones(new HashSet<>(Arrays.asList("987234567", "998111991")));
 		cli1.adicionaEnderecos(Arrays.asList(end1, end2));
 		cli1.adicionaPedidos(Arrays.asList(ped1, ped2));
+		
+		cli2.adicionaTelefones(new HashSet<>(Arrays.asList("93883321", "33337378")));
+		cli2.adicionaEnderecos(end3);
 
 		e1.adicionaCidades(Arrays.asList(cid1));
 		e2.adicionaCidades(Arrays.asList(cid2));
@@ -153,7 +161,7 @@ public class DBService {
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11));
 		estadoRepository.saveAll(Arrays.asList(e1, e2, e3));
 		cidadeRepository.saveAll(Arrays.asList(cid1, cid2, cid3));
-		clienteRepository.save(cli1);
+		clienteRepository.saveAll(Arrays.asList(cli1, cli2));
 		enderecoRepository.saveAll(Arrays.asList(end1, end2));
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pag1, pag2));

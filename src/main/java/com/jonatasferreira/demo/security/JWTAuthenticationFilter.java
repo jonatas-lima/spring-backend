@@ -55,7 +55,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 		@Override
 		public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse res, AuthenticationException exception) throws IOException, ServletException {
-			res.setStatus(401);
+			res.setStatus(403);
 			res.setContentType("application/json");
 			res.getWriter().append(json());
 		}
@@ -63,7 +63,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		private String json() {
 			long date = new Date().getTime();
 			return "{\"timestamp\": " + date + ", "
-            + "\"status\": 401, "
+            + "\"status\": 403, "
             + "\"error\": \"Não autorizado\", "
             + "\"message\": \"Email ou senha inválidos\", "
             + "\"path\": \"/login\"}";

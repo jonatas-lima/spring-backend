@@ -1,11 +1,9 @@
 package com.jonatasferreira.demo.services;
 
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 
 import com.jonatasferreira.demo.security.UserSS;
 
-@Service
 public class UserService {
 
 	public static UserSS authenticated() {
